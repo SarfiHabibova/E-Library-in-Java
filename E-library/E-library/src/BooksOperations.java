@@ -62,7 +62,7 @@ public class BooksOperations implements BooksInterface{
                         String[] parts = line.split("/");
 
                         if (parts.length >= 3 && parts[2].trim().equalsIgnoreCase("Classic")) {
-                            // Print the Modern Classic part
+                            
                             System.out.println(parts[1].trim());
                         }
                     }
@@ -206,10 +206,10 @@ public class BooksOperations implements BooksInterface{
 
             try {
                 bookNumberToAdd = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                scanner.nextLine(); 
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter a valid integer.");
-                scanner.nextLine(); // Consume the invalid input
+                scanner.nextLine(); 
                 return;
             }
 
@@ -296,7 +296,6 @@ public class BooksOperations implements BooksInterface{
             userFavoriteBooksList.add(bookInfo);
             writeFavorites(favoritesFilePath, userFavoriteBooksList);
 
-            // Update the encapsulated favoriteBooksList field
             setFavoriteBooksList(userFavoriteBooksList);
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
@@ -310,14 +309,13 @@ public class BooksOperations implements BooksInterface{
 
         try {
             bookNumberToDelete = scanner.nextInt();
-            scanner.nextLine(); // Consume the newline character
+            scanner.nextLine(); 
         } catch (InputMismatchException e) {
             System.out.println("Invalid input. Please enter a valid integer.");
-            scanner.nextLine(); // Consume the invalid input
+            scanner.nextLine();
             return;
         }
 
-        // Read all lines from the file
         List<String> lines;
         try {
             lines = Files.readAllLines(Paths.get("src/Books.txt"));
@@ -327,36 +325,35 @@ public class BooksOperations implements BooksInterface{
             return;
         }
 
-        // Create a StringBuilder to store the modified content
         StringBuilder modifiedContent = new StringBuilder();
 
-        // Flag to check if the book to be deleted is found
+      
         boolean bookFound = false;
 
-        // Iterate through each line and check for the book to be deleted
+      
         for (String line : lines) {
             if (line.trim().isEmpty()) {
-                continue; // Skip empty lines
+                continue; 
             }
 
             String[] parts = line.split("\\. ");
             if (parts.length < 1) {
-                continue; // Skip lines without a book number
+                continue; 
             }
 
             try {
                 int currentBookNumber = Integer.parseInt(parts[0]);
 
-                // Check if the current line corresponds to the book to be deleted
+            
                 if (currentBookNumber == bookNumberToDelete) {
                     bookFound = true;
                     System.out.println("Book found and deleted: " + line);
                 } else {
-                    // Append lines other than the one to be deleted to the modified content
+                 
                     modifiedContent.append(line).append("\n");
                 }
             } catch (NumberFormatException ignored) {
-                // Skip lines where the book number is not a valid integer
+               
             }
         }
 
@@ -366,7 +363,7 @@ public class BooksOperations implements BooksInterface{
             return;
         }
 
-        // Write the modified content back to the file
+      
         try (FileWriter writer = new FileWriter("src/Books.txt")) {
             writer.write(modifiedContent.toString());
             System.out.println("Book deleted successfully!");
@@ -388,7 +385,7 @@ public class BooksOperations implements BooksInterface{
                 String lastLine = lines.get(lines.size() - 1);
                 String[] parts = lastLine.split("\\. ");
 
-                // Check if the parts array has at least 1 element and it is not empty
+                
                 if (parts.length >= 1 && !parts[0].isEmpty()) {
                     lastEntryNumber = Integer.parseInt(parts[0]) + 1;
                 }
